@@ -252,23 +252,12 @@ class PostgresEngineSpec(PostgresBaseEngineSpec, BasicParametersMixin):
         return None
 
     @classmethod
-    def adjust_engine_params(
+    def get_prequeries(
         cls,
-        uri: URL,
-        connect_args: dict[str, Any],
-        catalog: Optional[str] = None,
-        schema: Optional[str] = None,
-    ) -> tuple[URL, dict[str, Any]]:
-        if not schema:
-            return uri, connect_args
-
-        options = parse_options(connect_args)
-        options["search_path"] = schema
-        connect_args["options"] = " ".join(
-            f"-c{key}={value}" for key, value in options.items()
-        )
-
-        return uri, connect_args
+        catalog: str | None = None,
+        schema: str | None = None,
+    ) -> [str]:
+        return [f'set search_path = "{schema}"']
 
     @classmethod
     def get_allow_cost_estimate(cls, extra: dict[str, Any]) -> bool:

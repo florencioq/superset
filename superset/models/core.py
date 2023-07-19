@@ -521,6 +521,8 @@ class Database(
             schema=schema, nullpool=nullpool, source=source
         ) as engine:
             with closing(engine.raw_connection()) as conn:
+                for prequery in self.db_engine_spec.get_prequeries(schema=schema):
+                    conn.execute(prequery)
                 yield conn
 
     def get_default_schema_for_query(self, query: "Query") -> Optional[str]:

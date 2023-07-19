@@ -1099,6 +1099,19 @@ class BaseEngineSpec:  # pylint: disable=too-many-public-methods
         }
 
     @classmethod
+    def get_prequeries(
+        cls,
+        catalog: str | None = None,
+        schema: str | None = None,
+    ) -> [str]:
+        """
+        Return pre-session queries.
+
+        This are useful for setting the default catalog and/or schema.
+        """
+        return []
+
+    @classmethod
     def patch(cls) -> None:
         """
         TODO: Improve docstring and refactor implementation in Hive
