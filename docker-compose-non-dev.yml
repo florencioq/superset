@@ -36,6 +36,8 @@ services:
     env_file: docker/.env-non-dev
     image: postgres:15
     container_name: superset_db
+    ports:
+      - 5432:5432
     restart: unless-stopped
     volumes:
       - db_home:/var/lib/postgresql/data
